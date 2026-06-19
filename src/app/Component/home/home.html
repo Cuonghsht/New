@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tidal — Kính bơi chống mờ, ôm mặt chuẩn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="ripples" aria-hidden="true">
+  <span></span><span></span><span></span>
+</div>
+
+<header class="nav">
+  <div class="nav__brand">
+    <span class="nav__brand-mark">Arena</span>
+    <span class="nav__brand-sub">Arena.com</span>
+  </div>
+  <nav class="nav__links">
+    <a href="#features">Tính năng</a>
+    <a href="#specs">Thông số</a>
+    <a href="#reviews">Đánh giá</a>
+  </nav>
+  <a href="#buy" class="nav__cta">Mua ngay</a>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__copy">
+      <p class="hero__eyebrow">Dòng thi đấu &amp; tập luyện</p>
+      <h1 class="hero__title">Nhìn rõ từng<br>centimet đường đua.</h1>
+      <p class="hero__desc">
+        Tròng kính cong 3D ôm khít hốc mắt, lớp phủ chống mờ kép và góc nhìn
+        rộng 180° — kính bơi Tidal được tạo ra cho người bơi nghiêm túc,
+        không phải để cất ngăn kéo.
+      </p>
+      <div class="hero__actions">
+        <a href="#buy" class="btn btn--primary">Đặt mua — 299.000đ</a>
+        <a href="#features" class="btn btn--ghost">Xem tính năng</a>
+      </div>
+      <ul class="hero__trust">
+        <li>Bảo hành 12 tháng</li>
+        <li>Đổi trả 30 ngày</li>
+        <li>Freeship toàn quốc </li>
+      </ul>
+    </div>
+
+    <div class="hero__stage">
+      <svg class="goggle" viewBox="0 0 520 320" role="img" aria-label="Kính bơi Tidal">
+        <defs>
+          <radialGradient id="lensGrad" cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#8FE9FF"/>
+            <stop offset="55%" stop-color="#2FA9D8"/>
+            <stop offset="100%" stop-color="#0E4C7C"/>
+          </radialGradient>
+          <linearGradient id="strapGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#FFC93C"/>
+            <stop offset="100%" stop-color="#FF9F1C"/>
+          </linearGradient>
+        </defs>
+
+        <path class="goggle__strap" d="M40,160 C10,120 10,80 60,55" />
+        <path class="goggle__strap" d="M480,160 C510,120 510,80 460,55" />
+
+        <circle class="goggle__lens" cx="170" cy="170" r="95" fill="url(#lensGrad)"/>
+        <circle class="goggle__lens" cx="350" cy="170" r="95" fill="url(#lensGrad)"/>
+        <circle class="goggle__lens-ring" cx="170" cy="170" r="95"/>
+        <circle class="goggle__lens-ring" cx="350" cy="170" r="95"/>
+
+        <ellipse class="goggle__glint" cx="138" cy="130" rx="22" ry="14"/>
+        <ellipse class="goggle__glint" cx="318" cy="130" rx="22" ry="14"/>
+
+        <path class="goggle__bridge" d="M255,165 Q260,150 265,165" />
+      </svg>
+      <p class="hero__stage-caption">Tròng kính cong 3D · Khung silicone mềm</p>
+    </div>
+  </section>
+
+  <!-- LANE DIVIDER -->
+  <div class="lane" aria-hidden="true"><div class="lane__stripe"></div></div>
+
+  <!-- FEATURES -->
+  <section id="features" class="features">
+    <h2 class="section-title">Bốn làn, bốn lý do</h2>
+    <div class="features__grid">
+
+      <article class="feature">
+        <span class="feature__lane">Làn 1</span>
+        <h3>Chống mờ kép</h3>
+        <p>Lớp phủ chống mờ cả mặt trong lẫn mặt ngoài tròng kính, giữ tầm nhìn rõ suốt buổi tập dài.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature__lane">Làn 2</span>
+        <h3>Góc nhìn 180°</h3>
+        <p>Tròng kính cong 3D mở rộng tầm nhìn ngoại vi, không bỏ lỡ vạch đích hay người bơi cạnh bên.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature__lane">Làn 3</span>
+        <h3>Ôm mặt không rò nước</h3>
+        <p>Gioăng silicone y tế mềm, ôm theo 3 điểm tựa trên khuôn mặt, kín nước mà không để lại vết hằn sâu.</p>
+      </article>
+
+      <article class="feature">
+        <span class="feature__lane">Làn 4</span>
+        <h3>Chặn UV &amp; chlorine</h3>
+        <p>Tròng kính chặn 100% tia UV, khung và dây đeo chống xuống cấp do clo trong nước hồ bơi.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="lane" aria-hidden="true"><div class="lane__stripe"></div></div>
+
+ <section class="feature-image">
+
+  <div class="slider">
+    <img
+      [src]="images[currentImage]"
+      alt="Kính bơi Tidal"
+      class="feature-image__img">
+  </div>
+
+  <p class="feature-image__caption">
+    Kính bơi Tidal được thiết kế để đồng hành cùng bạn trên mọi đường đua,
+    từ hồ bơi trong nhà đến biển cả rộng lớn.
+  </p>
+
+</section>
+  
+
+  <div class="lane" aria-hidden="true"><div class="lane__stripe"></div></div>
+
+  <!-- SPECS -->
+  <section id="specs" class="specs">
+    <h2 class="section-title">Thông số</h2>
+    <dl class="specs__list">
+      <div><dt>Chất liệu tròng</dt><dd>Polycarbonate chống vỡ</dd></div>
+      <div><dt>Chống tia UV</dt><dd>100% UVA/UVB</dd></div>
+      <div><dt>Khung &amp; gioăng</dt><dd>Silicone y tế mềm</dd></div>
+      <div><dt>Dây đeo</dt><dd>khoá cài nhanh,Điêu chỉnh kích thước phù hợp với khuôn mặt</dd></div>
+      <div><dt>Phụ kiện </dt><dd>Bịt tai , kẹp mũi </dd></div>
+      <div><dt>Độ sâu chịu áp</dt><dd>Đến 5 m</dd></div>
+      <div><dt>Phù hợp</dt><dd>Phù hợp với tất cả lứa tuổi , giới tính</dd></div>
+      <div><dt>Bảo hành</dt><dd>12 tháng lỗi nhà sản xuất</dd></div>
+    </dl>
+  </section>
+
+  <div class="lane" aria-hidden="true"><div class="lane__stripe"></div></div>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="reviews">
+    <h2 class="section-title">Người bơi nói gì</h2>
+    <div class="reviews__grid">
+      <blockquote class="review">
+        <p>“Bơi 1500m không một giọt nước lọt vào, kính cũng không bị mờ dù bể nước nóng.”</p>
+        <cite>— Minh Anh, vận động viên phong trào</cite>
+      </blockquote>
+      <blockquote class="review">
+        <p>“Đeo kính cận độ -4 vẫn vừa, không bị ép thái dương như mấy đôi trước.”</p>
+        <cite>— Hoàng Long, đi bơi 4 buổi/tuần</cite>
+      </blockquote>
+      <blockquote class="review">
+        <p>“Góc nhìn rộng thật sự khác biệt khi bơi thi đường dài, đỡ phải ngẩng đầu liên tục.”</p>
+        <cite>— Thu Trang, HLV bơi lội</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- BUY -->
+  <section id="buy" class="buy">
+    <div class="buy__card">
+      <div class="buy__info">
+        <h2>Kính bơi Tidal</h2>
+        <p class="buy__price">299.000đ <span>Miễn phí ship toàn quốc </span></p>
+        
+      </div>
+     
+      <button class="btn btn--primary btn--block" id="addToCartBtn" type="button">Mua Hàng  — <span id="totalPrice">299.000đ</span></button>
+      <p class="buy__note" id="cartNote" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>© 2026 Tidal Swim Co. — Trang demo giao diện. Kết nối backend/giỏ hàng của bạn tại <code>script.ts</code>.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+// ==========================================================================
+// Tidal — trang bán kính bơi
+// Token system: hồ bơi sâu, ánh nắng mặt nước, làn bơi
+// ==========================================================================
+
+// ---- Tokens --------------------------------------------------------------
+$pool-deep:  #061E2E;
+$pool-mid:   #0E4C7C;
+$aqua:       #3FC1E0;
+$aqua-soft:  rgba(63, 193, 224, 0.14);
+$foam:       #EAF6F8;
+$foam-dim:   #9FC2CC;
+$amber:      #FFC93C;
+$ink:        #04141F;
+$line:       rgba(234, 246, 248, 0.1);
+$line-bold:  rgba(234, 246, 248, 0.2);
+
+$font-display: 'Space Grotesk', sans-serif;
+$font-body:    'Inter', sans-serif;
+$font-mono:    'JetBrains Mono', monospace;
+
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+$radius-lg: 22px;
+$radius-md: 14px;
+$radius-pill: 999px;
+
+// ---- Reset -----------------------------------------------------------------
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: $pool-deep;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% -10%, rgba(63,193,224,0.16), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(255,201,60,0.07), transparent 60%);
+  color: $foam;
+  font-family: $font-body;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.001ms !important; }
+}
+
+:focus-visible {
+  outline: 2px solid $amber;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+// ---- Ripples (ambient, behind hero) ---------------------------------------
+.ripples {
+  position: fixed;
+  top: -120px;
+  right: -120px;
+  width: 480px;
+  height: 480px;
+  pointer-events: none;
+  z-index: 0;
+
+  span {
+    position: absolute;
+    inset: 0;
+    border: 1px solid $line;
+    border-radius: 50%;
+    animation: ripple 6s $ease infinite;
+  }
+  span:nth-child(2) { animation-delay: 2s; }
+  span:nth-child(3) { animation-delay: 4s; }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0.6); opacity: 0; }
+  40%  { opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+// ---- Buttons -----------------------------------------------------------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: $radius-pill;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s $ease, background 0.2s $ease, border-color 0.2s $ease;
+
+  &:hover { transform: translateY(-2px); }
+  &:active { transform: translateY(0); }
+}
+
+.btn--primary {
+  background: $amber;
+  color: $ink;
+  box-shadow: 0 10px 30px -10px rgba(255, 201, 60, 0.5);
+}
+.btn--primary:hover { background: #ffd766; }
+
+.btn--ghost {
+  background: transparent;
+  border-color: $line-bold;
+  color: $foam;
+}
+.btn--ghost:hover { border-color: $aqua; color: $aqua; }
+
+.btn--block { width: 100%; }
+
+// ---- Nav -----------------------------------------------------------------
+.nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px clamp(20px, 5vw, 56px);
+
+  &__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  &__brand-mark {
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.04em;
+  }
+  &__brand-sub {
+    font-size: 0.7rem;
+    color: $foam-dim;
+    letter-spacing: 0.08em;
+  }
+
+  &__links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.85rem;
+    color: $foam-dim;
+
+    a:hover { color: $aqua; }
+
+    @media (max-width: 760px) { display: none; }
+  }
+
+  &__cta {
+    background: $aqua-soft;
+    border: 1px solid rgba(63,193,224,0.4);
+    color: $aqua;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: $radius-pill;
+    transition: background 0.2s $ease;
+
+    &:hover { background: rgba(63,193,224,0.26); }
+  }
+}
+
+// ---- Hero ------------------------------------------------------------------
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(20px, 5vw, 40px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 80px);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(28px, 5vw, 60px);
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  &__eyebrow {
+    margin: 0 0 14px;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $amber;
+  }
+
+  &__title {
+    margin: 0 0 18px;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+  }
+
+  &__desc {
+    margin: 0 0 28px;
+    max-width: 46ch;
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: $foam-dim;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  &__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.78rem;
+    color: $foam-dim;
+
+    li::before {
+      content: '✓';
+      color: $aqua;
+      margin-right: 6px;
+    }
+  }
+
+  &__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  &__stage-caption {
+    margin: 0;
+    font-size: 0.78rem;
+    color: $foam-dim;
+    font-family: $font-mono;
+  }
+}
+
+// ---- Goggle illustration (signature) ---------------------------------------
+.goggle {
+  width: 100%;
+  max-width: 460px;
+  filter: drop-shadow(0 25px 50px rgba(0,0,0,0.4));
+  animation: bob 5s ease-in-out infinite;
+
+  &--small {
+    max-width: 320px;
+    animation: none;
+  }
+
+  &__strap {
+    fill: none;
+    stroke: $foam-dim;
+    stroke-width: 10;
+    stroke-linecap: round;
+    opacity: 0.5;
+  }
+
+  &__lens-ring {
+    fill: none;
+    stroke: $foam;
+    stroke-width: 6;
+    opacity: 0.9;
+  }
+
+  &__glint {
+    fill: rgba(255,255,255,0.55);
+    transform-origin: center;
+  }
+
+  &__bridge {
+    fill: none;
+    stroke: $foam-dim;
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+// ---- Lane divider (structural device) --------------------------------------
+.lane {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 56px);
+
+  &__stripe {
+    height: 3px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      $amber 0 28px,
+      transparent 28px 44px
+    );
+    opacity: 0.55;
+  }
+}
+
+// ---- Section shared --------------------------------------------------------
+.section-title {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin: 0 0 8px;
+}
+
+.section-sub {
+  margin: 0 0 32px;
+  color: $foam-dim;
+  font-size: 0.95rem;
+}
+
+// ---- Features ----------------------------------------------------------
+.features {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 56px);
+
+  &__grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: $line;
+    border: 1px solid $line;
+    border-radius: $radius-lg;
+    overflow: hidden;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 540px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.feature {
+  background: rgba(255,255,255,0.02);
+  padding: 26px 22px;
+
+  &__lane {
+    display: inline-block;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: $amber;
+    background: rgba(255,201,60,0.1);
+    border: 1px solid rgba(255,201,60,0.3);
+    padding: 3px 9px;
+    border-radius: $radius-pill;
+    margin-bottom: 14px;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-family: $font-display;
+    font-size: 1.08rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: $foam-dim;
+  }
+}
+
+// ---- Colors -----------------------------------------------------------
+.colors {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 56px);
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__current {
+    margin: 0;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  &__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+.swatch {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  background: var(--sw);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s $ease, border-color 0.2s $ease;
+
+  &:hover { transform: scale(1.08); }
+
+  &.is-active {
+    border-color: $foam;
+    box-shadow: 0 0 0 3px $pool-deep, 0 0 0 5px var(--sw);
+  }
+}
+
+// ---- Specs ------------------------------------------------------------
+.specs {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 56px);
+
+  &__list {
+    margin: 28px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 40px;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px dashed $line;
+    }
+
+    dt {
+      color: $foam-dim;
+      font-size: 0.88rem;
+    }
+    dd {
+      margin: 0;
+      font-family: $font-mono;
+      font-size: 0.88rem;
+      text-align: right;
+    }
+  }
+}
+
+// ---- Reviews ----------------------------------------------------------
+.reviews {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 56px);
+
+  &__grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.review {
+  margin: 0;
+  padding: 22px;
+  border: 1px solid $line;
+  border-radius: $radius-md;
+  background: rgba(255,255,255,0.02);
+
+  p {
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  cite {
+    font-style: normal;
+    font-size: 0.78rem;
+    color: $foam-dim;
+  }
+}
+
+// ---- Buy --------------------------------------------------------------
+.buy {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 56px) clamp(60px, 8vw, 100px);
+}
+
+.buy__card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid $line-bold;
+  border-radius: $radius-lg;
+  padding: clamp(24px, 4vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.buy__info h2 {
+  margin: 0 0 6px;
+  font-family: $font-display;
+  font-size: 1.4rem;
+}
+
+.buy__price {
+  margin: 0;
+  font-family: $font-mono;
+  font-size: 1.3rem;
+  color: $amber;
+  font-weight: 600;
+
+  span {
+    font-size: 0.7rem;
+    color: $foam-dim;
+    font-weight: 400;
+    margin-left: 6px;
+  }
+}
+
+.buy__color {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: $foam-dim;
+}
+
+.buy__qty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  label {
+    font-size: 0.85rem;
+    color: $foam-dim;
+  }
+}
+
+.buy__qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid $line-bold;
+  border-radius: $radius-pill;
+  overflow: hidden;
+
+  button {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: $foam;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s $ease;
+
+    &:hover { background: $aqua-soft; }
+  }
+
+  input {
+    width: 48px;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-left: 1px solid $line-bold;
+    border-right: 1px solid $line-bold;
+    color: $foam;
+    font-family: $font-mono;
+    font-size: 0.95rem;
+    padding: 8px 0;
+
+    &:focus { outline: none; }
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+}
+
+.buy__note {
+  margin: 0;
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: $aqua;
+  text-align: center;
+}
+
+// ---- Footer -----------------------------------------------------------
+.footer {
+  text-align: center;
+  padding: 28px 20px 40px;
+  font-size: 0.72rem;
+  color: $foam-dim;
+
+  code {
+    background: rgba(255,255,255,0.06);
+    padding: 1px 6px;
+    border-radius: 5px;
+    color: $aqua;
+  }
+}
+.feature-image {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  text-align: center;
+
+  &__img {
+    width: 100%;
+    max-width: 900px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.15);
+    transition: opacity .6s ease;
+  }
+
+  &__caption {
+    margin-top: 20px;
+    color: $foam-dim;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+}
