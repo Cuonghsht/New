@@ -6,7 +6,7 @@ import {Entity} from "../API/Entity";
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'https://localhost:7295/api/Order'; 
+  private apiUrl = 'https://be-m37u.onrender.com/api/Order';
   constructor(private http: HttpClient) {}
 
   createOrder(orderData: any): Observable<any> {
