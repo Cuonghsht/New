@@ -1,1 +1,124 @@
-<p>order works!</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặt hàng — Kính bơi Tidal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="order.scss">
+</head>
+<body>
+
+<div class="ripples" aria-hidden="true">
+  <span></span><span></span><span></span>
+</div>
+
+<header class="nav">
+  <div class="nav__brand">
+    <span class="nav__brand-mark">Arena</span>
+    <span class="nav__brand-sub">Arena.com</span>
+  </div>
+  <a href="index.html" class="nav__cta">← Về trang sản phẩm</a>
+</header>
+
+<main class="order">
+
+  <div class="order__intro">
+    <p class="order__eyebrow">Xác nhận đơn hàng</p>
+    <h1 class="order__title">Hoàn tất đặt mua<br>kính bơi Tidal.</h1>
+    <p class="order__desc">Điền thông tin giao hàng bên dưới — chúng tôi sẽ liên hệ xác nhận trong vòng 24 giờ.</p>
+  </div>
+
+  <!-- LANE DIVIDER -->
+  <div class="lane" aria-hidden="true"><div class="lane__stripe"></div></div>
+
+  <div class="order__layout">
+
+    <!-- FORM: các trường name khớp với Order entity (FullName, Address, PhoneNumber, Quantity, Price) -->
+    <form class="order-form" action="/Order/Create" method="post" novalidate>
+
+      <div class="order-form__field">
+        <label for="fullName">Họ và tên</label>
+        <input type="text" [(ngModel)]="Name" id="fullName" name="FullName" placeholder="Nguyễn Văn A" required autocomplete="name">
+      </div>
+
+      <div class="order-form__field">
+        <label for="phoneNumber">Số điện thoại</label>
+        <input type="tel" id="phoneNumber" [(ngModel)]="Phone" name="PhoneNumber" placeholder="09xx xxx xxx" required pattern="[0-9]{9,11}" autocomplete="tel">
+      </div>
+
+      <div class="order-form__field">
+        <label for="address">Địa chỉ giao hàng</label>
+        <textarea id="address" [(ngModel)]="Address" name="Address" rows="3" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" required autocomplete="street-address"></textarea>
+      </div>
+
+      <div class="order-form__row">
+        <div class="order-form__field order-form__field--qty">
+          <label for="quantity">Số lượng</label>
+          <div class="order-form__qty-control">
+            <button (click)="Giam()" type="button" class="order-form__qty-btn" data-step="-1" aria-label="Giảm số lượng">–</button>
+            <input type="number" id="quantity" name="Quantity"  value="{{ Quantity }}" min="1" max="10" required inputmode="numeric">
+            <button (click)="Tang()" type="button" class="order-form__qty-btn" data-step="1" aria-label="Tăng số lượng">+</button>
+          </div>
+        </div>
+
+        <div class="order-form__field order-form__field--price">
+          <label for="price">Đơn giá (đ)</label>
+          <input type="number" id="price" name="Price" value="{{ Price }}" readonly>
+        </div>
+      </div>
+
+      <button type="submit" (click)="MuaHang()" class="btn btn--primary btn--block">Xác nhận đặt hàng</button>
+      <p class="order-form__note">Bằng việc đặt hàng, bạn đồng ý với điều khoản mua hàng của Arena.com.</p>
+    </form>
+
+    <!-- SUMMARY -->
+    <aside class="summary">
+      <h2 class="summary__title">Tóm tắt đơn hàng</h2>
+
+      <div class="summary__product">
+        <img src="image/hero.jpg" alt="Kính bơi Tidal" class="summary__thumb">
+        <div>
+          <p class="summary__name">Kính bơi Tidal</p>
+          <p class="summary__sub">Chống mờ kép · Góc nhìn 180°</p>
+        </div>
+      </div>
+
+      <dl class="summary__rows">
+        <div>
+          <dt>Đơn giá</dt>
+          <dd>{{ Price }}</dd>
+        </div>
+        <div>
+          <dt>Số lượng</dt>
+          <dd>{{ Quantity }}</dd>
+        </div>
+        <div>
+          <dt>Phí vận chuyển</dt>
+          <dd>Miễn phí</dd>
+        </div>
+      </dl>
+
+      <div class="summary__total">
+        <span>Tổng cộng</span>
+        <strong>{{ 299000 * Quantity }}đ</strong>
+      </div>
+
+      <ul class="summary__trust">
+        <li>Bảo hành 12 tháng</li>
+        <li>Đổi trả 30 ngày</li>
+        <li>Freeship toàn quốc</li>
+      </ul>
+    </aside>
+
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p>© 2026 Tidal Swim Co. — Trang demo giao diện. Kết nối backend xử lý đơn hàng của bạn tại action của form.</p>
+</footer>
+
+</body>
+</html>

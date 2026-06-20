@@ -1,0 +1,432 @@
+// ==========================================================================
+// Tidal — trang đặt hàng (Order)
+// Dùng chung token với trang sản phẩm để đồng bộ giao diện
+// ==========================================================================
+
+// ---- Tokens --------------------------------------------------------------
+$pool-deep:  #061E2E;
+$pool-mid:   #0E4C7C;
+$aqua:       #3FC1E0;
+$aqua-soft:  rgba(63, 193, 224, 0.14);
+$foam:       #EAF6F8;
+$foam-dim:   #9FC2CC;
+$amber:      #FFC93C;
+$ink:        #04141F;
+$line:       rgba(234, 246, 248, 0.1);
+$line-bold:  rgba(234, 246, 248, 0.2);
+$danger:     #FF8A7A;
+
+$font-display: 'Space Grotesk', sans-serif;
+$font-body:    'Inter', sans-serif;
+$font-mono:    'JetBrains Mono', monospace;
+
+$ease: cubic-bezier(0.22, 1, 0.36, 1);
+$radius-lg: 22px;
+$radius-md: 14px;
+$radius-pill: 999px;
+
+// ---- Reset -----------------------------------------------------------------
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: $pool-deep;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% -10%, rgba(63,193,224,0.16), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(255,201,60,0.07), transparent 60%);
+  color: $foam;
+  font-family: $font-body;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.001ms !important; }
+}
+
+:focus-visible {
+  outline: 2px solid $amber;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+// ---- Ripples (ambient) -----------------------------------------------------
+.ripples {
+  position: fixed;
+  top: -120px;
+  right: -120px;
+  width: 480px;
+  height: 480px;
+  pointer-events: none;
+  z-index: 0;
+
+  span {
+    position: absolute;
+    inset: 0;
+    border: 1px solid $line;
+    border-radius: 50%;
+    animation: ripple 6s $ease infinite;
+  }
+  span:nth-child(2) { animation-delay: 2s; }
+  span:nth-child(3) { animation-delay: 4s; }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0.6); opacity: 0; }
+  40%  { opacity: 0.5; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+// ---- Buttons -----------------------------------------------------------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  border-radius: $radius-pill;
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s $ease, background 0.2s $ease, border-color 0.2s $ease;
+
+  &:hover { transform: translateY(-2px); }
+  &:active { transform: translateY(0); }
+}
+
+.btn--primary {
+  background: $amber;
+  color: $ink;
+  box-shadow: 0 10px 30px -10px rgba(255, 201, 60, 0.5);
+}
+.btn--primary:hover { background: #ffd766; }
+
+.btn--block { width: 100%; }
+
+// ---- Nav -----------------------------------------------------------------
+.nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px clamp(20px, 5vw, 56px);
+
+  &__brand {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  &__brand-mark {
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.04em;
+  }
+  &__brand-sub {
+    font-size: 0.7rem;
+    color: $foam-dim;
+    letter-spacing: 0.08em;
+  }
+
+  &__cta {
+    background: $aqua-soft;
+    border: 1px solid rgba(63,193,224,0.4);
+    color: $aqua;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: $radius-pill;
+    transition: background 0.2s $ease;
+
+    &:hover { background: rgba(63,193,224,0.26); }
+  }
+}
+
+// ---- Lane divider -----------------------------------------------------------
+.lane {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 56px);
+
+  &__stripe {
+    height: 3px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      $amber 0 28px,
+      transparent 28px 44px
+    );
+    opacity: 0.55;
+  }
+}
+
+// ---- Order page layout -------------------------------------------------
+.order {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(20px, 5vw, 40px) clamp(20px, 5vw, 56px) clamp(60px, 8vw, 100px);
+
+  &__intro {
+    max-width: 640px;
+    margin-bottom: clamp(24px, 4vw, 40px);
+  }
+
+  &__eyebrow {
+    margin: 0 0 12px;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $amber;
+  }
+
+  &__title {
+    margin: 0 0 14px;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    line-height: 1.12;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $foam-dim;
+  }
+
+  &__layout {
+    margin-top: clamp(32px, 5vw, 48px);
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: clamp(24px, 4vw, 40px);
+    align-items: start;
+
+    @media (max-width: 860px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// ---- Form ---------------------------------------------------------------
+.order-form {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid $line-bold;
+  border-radius: $radius-lg;
+  padding: clamp(22px, 4vw, 34px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-size: 0.82rem;
+      color: $foam-dim;
+      font-weight: 500;
+    }
+
+    input,
+    textarea {
+      background: $ink;
+      border: 1px solid $line-bold;
+      border-radius: $radius-md;
+      color: $foam;
+      font-family: $font-body;
+      font-size: 0.95rem;
+      padding: 12px 14px;
+      transition: border-color 0.2s $ease, box-shadow 0.2s $ease;
+      resize: vertical;
+
+      &::placeholder { color: rgba(159, 194, 204, 0.5); }
+
+      &:focus {
+        outline: none;
+        border-color: $aqua;
+        box-shadow: 0 0 0 3px $aqua-soft;
+      }
+
+      &:invalid:not(:placeholder-shown) {
+        border-color: $danger;
+      }
+
+      &[readonly] {
+        color: $foam-dim;
+        cursor: not-allowed;
+        background: rgba(255,255,255,0.02);
+      }
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__qty-control {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid $line-bold;
+    border-radius: $radius-md;
+    overflow: hidden;
+
+    input {
+      border: none;
+      border-left: 1px solid $line-bold;
+      border-right: 1px solid $line-bold;
+      border-radius: 0;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  &__qty-btn {
+    appearance: none;
+    background: transparent;
+    border: none;
+    color: $foam;
+    width: 44px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s $ease;
+
+    &:hover { background: $aqua-soft; }
+  }
+
+  &__note {
+    margin: 4px 0 0;
+    font-size: 0.74rem;
+    color: $foam-dim;
+    text-align: center;
+  }
+}
+
+// ---- Summary --------------------------------------------------------------
+.summary {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid $line-bold;
+  border-radius: $radius-lg;
+  padding: clamp(22px, 4vw, 30px);
+  position: sticky;
+  top: 24px;
+
+  @media (max-width: 860px) {
+    position: static;
+  }
+
+  &__title {
+    margin: 0 0 18px;
+    font-family: $font-display;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  &__product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed $line;
+  }
+
+  &__thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: $radius-md;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    margin: 0 0 4px;
+    font-family: $font-display;
+    font-weight: 700;
+    font-size: 0.98rem;
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 0.78rem;
+    color: $foam-dim;
+  }
+
+  &__rows {
+    margin: 0 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+    }
+
+    dt { color: $foam-dim; }
+    dd { margin: 0; font-family: $font-mono; }
+  }
+
+  &__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid $line-bold;
+    margin-bottom: 20px;
+
+    span {
+      font-size: 0.88rem;
+      color: $foam-dim;
+    }
+    strong {
+      font-family: $font-mono;
+      font-size: 1.3rem;
+      color: $amber;
+    }
+  }
+
+  &__trust {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: $foam-dim;
+
+    li::before {
+      content: '✓';
+      color: $aqua;
+      margin-right: 6px;
+    }
+  }
+}
+
+// ---- Footer -----------------------------------------------------------
+.footer {
+  text-align: center;
+  padding: 28px 20px 40px;
+  font-size: 0.72rem;
+  color: $foam-dim;
+}
