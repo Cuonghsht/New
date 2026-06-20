@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import  {FormsModule} from '@angular/forms';
 import { OrderService } from '../../API/Order';
 import { Entity } from '../../API/Entity';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-order',
   imports: [FormsModule],
@@ -9,13 +10,13 @@ import { Entity } from '../../API/Entity';
   styleUrls: ['./order.scss'],
 })
 export class OrderComponent {
-  constructor(private OrderService: OrderService) {}
+  constructor(private OrderService: OrderService, private router: Router) {}
    Quantity: number = 0;
    Price : number = 0;
    Name : string = '';
     Address : string = ''
     Phone : string = '';
-    
+    isSubmitting = false;
    Tang (){
      this.Quantity++;
       this.Price = this.Quantity * 299000;
@@ -34,7 +35,7 @@ export class OrderComponent {
      
     MuaHang()
     {
-       
+       this.isSubmitting = true;
       const a  = {
         FullName: this.Name,
         Address: this.Address,
@@ -47,10 +48,14 @@ export class OrderComponent {
         (response) => {
           console.log('Order created successfully:', response);
           alert('Đặt hàng thành công!');
+          this.isSubmitting = false;
+          this.router.navigate(['/thankyou']); 
         },
         (error) => {
           console.error('Error creating order:', error);
           alert('Đặt hàng thất bại. Vui lòng thử lại.');
+          this.isSubmitting = false;
+          window.location.reload();
         }
       );
     }

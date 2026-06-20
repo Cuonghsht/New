@@ -1,0 +1,44 @@
+.thank-you-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0b1e2d; // Màu nền đồng bộ với trang sản phẩm
+  color: #fff;
+  font-family: sans-serif;
+
+  .thank-you-card {
+    text-align: center;
+    padding: 40px;
+    background: #142a3d;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    max-width: 400px;
+
+    h1 {
+      margin: 20px 0;
+      color: #ffd700; // Màu vàng tạo điểm nhấn
+    }
+
+    p {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .btn-home {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: #f7c034;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: #e0ac2c;
+      }
+    }
+  }
+}

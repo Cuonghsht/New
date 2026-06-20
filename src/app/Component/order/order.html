@@ -69,7 +69,18 @@
         </div>
       </div>
 
-      <button type="submit" (click)="MuaHang()" class="btn btn--primary btn--block">Xác nhận đặt hàng</button>
+      <button 
+  type="submit" 
+  (click)="MuaHang()" 
+  [disabled]="isSubmitting" 
+  class="btn btn--primary btn--block">
+  @if (!isSubmitting) {
+    <span>Xác nhận đặt hàng</span>
+  }
+  @if (isSubmitting) {
+    <span>Đang xử lý...</span>
+  }
+</button>
       <p class="order-form__note">Bằng việc đặt hàng, bạn đồng ý với điều khoản mua hàng của Arena.com.</p>
     </form>
 
@@ -78,9 +89,9 @@
       <h2 class="summary__title">Tóm tắt đơn hàng</h2>
 
       <div class="summary__product">
-        <img src="image/hero.jpg" alt="Kính bơi Tidal" class="summary__thumb">
+        <img src="image/3.jpg" alt="Kính bơi Arena" class="summary__thumb">
         <div>
-          <p class="summary__name">Kính bơi Tidal</p>
+          <p class="summary__name">Kính bơi Arena</p>
           <p class="summary__sub">Chống mờ kép · Góc nhìn 180°</p>
         </div>
       </div>
@@ -117,7 +128,7 @@
 </main>
 
 <footer class="footer">
-  <p>© 2026 Tidal Swim Co. — Trang demo giao diện. Kết nối backend xử lý đơn hàng của bạn tại action của form.</p>
+  <p>© 2026 Arena Swim Co. — Trang demo giao diện. Kết nối backend xử lý đơn hàng của bạn tại action của form.</p>
 </footer>
 
 </body>
