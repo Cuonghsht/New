@@ -58,7 +58,7 @@
           <label for="quantity">Số lượng</label>
           <div class="order-form__qty-control">
             <button (click)="Giam()" type="button" class="order-form__qty-btn" data-step="-1" aria-label="Giảm số lượng">–</button>
-            <input type="number" id="quantity" name="Quantity"  value="{{ Quantity }}" min="1" max="10" required inputmode="numeric">
+            <input type="number" id="quantity" readonly name="Quantity"  value="{{ Quantity }}" min="1" max="10" required inputmode="numeric">
             <button (click)="Tang()" type="button" class="order-form__qty-btn" data-step="1" aria-label="Tăng số lượng">+</button>
           </div>
         </div>
